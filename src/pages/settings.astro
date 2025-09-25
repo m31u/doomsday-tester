@@ -1,0 +1,83 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Doomsday Test - Settings</title>
+	</head>
+	<body class="bg-slate-600">
+		<main
+			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 py-2 h-[100vh] max-h-full"
+		>
+			<h1 class="text-3xl text-center my-2" id="heading">
+				Settings
+			</h1>
+
+			<label for="min-century">Minimum Century:</label>
+			<select name="min-century" id="min-century">
+				<option value="1400">1400</option>
+				<option value="1500">1500</option>
+				<option value="1600">1600</option>
+				<option value="1700">1700</option>
+				<option value="1800">1800</option>
+				<option value="1900">1900</option>
+			</select>
+			<label for="max-century">Maximum Century:</label>
+			<select name="max-century" id="max-century">
+				<option value="2000">2000</option>
+				<option value="2100">2100</option>
+				<option value="2200">2200</option>
+				<option value="2300">2300</option>
+				<option value="2400">2400</option>
+			</select>
+			<label for="allow-stats">Save stats</label>
+			<input
+				type="checkbox"
+				name="allow-stats"
+				id="allow-stats"
+			/>
+
+			<button id="save">Save Settings</button>
+			<button id="cancel">Cancel</button>
+		</main>
+	</body>
+
+	<script>
+		import { getSettings } from "../lib/settings";
+
+		const settings = getSettings();
+
+		const min = document.getElementById("min-century");
+		const max = document.getElementById("max-century");
+		const stats = document.getElementById("allow-stats");
+		min.value = settings.minCentury;
+		max.value = settings.maxCentury;
+		stats.checked = settings.allowStats;
+
+		const save = document.getElementById("save");
+		const cancel = document.getElementById("cancel");
+
+		save.addEventListener("click", () => {
+			const newSettings = {
+				minCentury: parseInt(min.value),
+				maxCentury: parseInt(max.value),
+				allowStats: stats.checked,
+			};
+
+			window.localStorage.setItem(
+				"settings",
+				JSON.stringify(newSettings)
+			);
+			location.replace("/");
+		});
+
+		cancel.addEventListener("click", () => {
+			location.replace("/");
+		});
+	</script>
+</html>

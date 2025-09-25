@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css"
+import "../styles/global.css";
 ---
 
 <html lang="en">
@@ -8,81 +8,216 @@ import "../styles/global.css"
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Doomsday Tester</title>
 	</head>
 	<body class="bg-slate-600">
-		<main class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 py-2 h-[100vh] max-h-full">
+		<div
+			class="flex whitespace-pre justify-start fixed top-0 bg-slate-950 text-slate-300 w-full px-2 py-0.5"
+		>
+			<a href="/settings">Settings</a> | <a href="/stats"
+				>Stats</a
+			>
+		</div>
+		<main
+			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 pt-6 h-[100vh] max-h-full"
+		>
 			<header class="flex flex-col items-center">
 				<p>Which day of the week was...?</p>
 				<h1 class="text-3xl my-2" id="date"></h1>
 			</header>
-			<div class="flex flex-col hidden" id="days">
-				<button class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2" x-index=0 id="sunday">Sunday</button>
-				<button class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2" x-index=1 id="monday">Monday</button>
-				<button class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2" x-index=2 id="tuesday">Tuesday</button>
-				<button class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2" x-index=3 id="wednesday">Wednesday</button>
-				<button class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2" x-index=4 id="thursday">Thursday</button>
-				<button class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2" x-index=5 id="friday">Friday</button>
-				<button class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2" x-index=6 id="saturday">Saturday</button>
+			<div
+				class="flex text-sm md:text-xl flex-col hidden"
+				id="days"
+			>
+				<button
+					class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2"
+					x-index="0"
+					id="sunday">Sunday</button
+				>
+				<button
+					class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2"
+					x-index="1"
+					id="monday">Monday</button
+				>
+				<button
+					class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2"
+					x-index="2"
+					id="tuesday">Tuesday</button
+				>
+				<button
+					class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2"
+					x-index="3"
+					id="wednesday">Wednesday</button
+				>
+				<button
+					class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2"
+					x-index="4"
+					id="thursday">Thursday</button
+				>
+				<button
+					class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2"
+					x-index="5"
+					id="friday">Friday</button
+				>
+				<button
+					class="p-4 rounded-full bg-slate-950 cursor-pointer day my-2"
+					x-index="6"
+					id="saturday">Saturday</button
+				>
 			</div>
 
 			<div class="text-center" id="message"></div>
 
-			<button class="p-4 rounded-full bg-red-800 cursor-pointer my-2" id="reset">Get New Challenge</button>
+			<button
+				class="p-4 rounded-full bg-red-800 cursor-pointer my-2"
+				id="reset">Get New Challenge</button
+			>
 		</main>
 	</body>
 
 	<script>
-	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-	const days = ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-	const amtOfDays = [null, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	function getRandomDate() {
-		let year = Math.floor(Math.random() * 800) + 1300
-		let month = Math.floor(Math.random() * 12) + 1
-		let day = Math.floor(Math.random() * amtOfDays[month] + (month == 2 && year % 4 == 0 ? 1 : 0)) + 1
+		import { getSettings } from "../lib/settings.js";
+		const settings = getSettings();
+		const months = [
+			"Jan",
+			"Feb",
+			"Mar",
+			"Apr",
+			"May",
+			"Jun",
+			"Jul",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		];
+		const days = [
+			"Sunday",
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"Saturday",
+		];
+		const amtOfDays = [
+			null,
+			31,
+			28,
+			31,
+			30,
+			31,
+			30,
+			31,
+			31,
+			30,
+			31,
+			30,
+			31,
+		];
+		function getRandomDate() {
+			let min = settings.minCentury;
+			let max = settings.maxCentury;
 
-		return new Date(`${month}/${day}/${year}`)
-	}
+			let year = Math.floor(Math.random() * max - min) + min;
+			let month = Math.floor(Math.random() * 12) + 1;
+			let day =
+				Math.floor(
+					Math.random() * amtOfDays[month] +
+						(month == 2 && year % 4 == 0
+							? 1
+							: 0)
+				) + 1;
 
-	let target;
-	let timer;
+			return new Date(`${month}/${day}/${year}`);
+		}
 
-	const date = document.getElementById("date")
-	const message = document.getElementById("message")
-	const buttons = document.getElementsByClassName("day")
-	const daysContainer = document.getElementById("days")
+		let target;
+		let timer;
 
-	function setupNewGame() {
-		timer = performance.now()
-		target = getRandomDate()
-		daysContainer.classList.remove("hidden")
-		date.innerText = `${months[target.getMonth()]} ${target.getDate()}, ${target.getFullYear()}`
-		message.innerText = ""
-	}
+		const date = document.getElementById("date");
+		const message = document.getElementById("message");
+		const buttons = document.getElementsByClassName("day");
+		const daysContainer = document.getElementById("days");
 
-	
-		Array.from(buttons).forEach(btn => {
-		const index = parseInt(btn.attributes["x-index"].value)
-		btn.addEventListener("click", () => {
+		function setupNewGame() {
+			timer = performance.now();
+			target = getRandomDate();
+			daysContainer.classList.remove("hidden");
+			date.innerText = `${
+				months[target.getMonth()]
+			} ${target.getDate()}, ${target.getFullYear()}`;
+			message.innerText = "";
+		}
 
-			daysContainer.classList.add("hidden")
-			
-			if (index == target.getDay()) {
-				const time = performance.now() - timer
-				message.innerText  = `Success ${days[index]} was correct! Guessed in under ${Math.ceil(time / 1000)}s!`
-				return
+		function saveStats(win, time = null) {
+			if (!settings.allowStats) {
+				return;
 			}
 
-			message.innerText = `Incorrect you guessed ${days[index]} the answer was ${days[target.getDay()]}`
-		})
-	})
+			let statData = window.localStorage.getItem("stats");
 
-	document.getElementById("reset").addEventListener("click", () => {
-		setupNewGame()
-	}) 
+			if (!statData) {
+				window.localStorage.setItem(
+					"stats",
+					JSON.stringify({
+						wins: 0,
+						losses: 0,
+						times: [],
+					})
+				);
+				statData = window.localStorage.getItem("stats");
+			}
 
+			let stats = JSON.parse(statData);
 
-	setupNewGame()
+			if (win) {
+				stats.wins = stats.wins + 1;
+				stats.times.push(time);
+			}
 
+			if (!win) {
+				stats.losses = stats.losses + 1;
+			}
+
+			window.localStorage.setItem(
+				"stats",
+				JSON.stringify(stats)
+			);
+		}
+
+		Array.from(buttons).forEach((btn) => {
+			const index = parseInt(btn.attributes["x-index"].value);
+			btn.addEventListener("click", () => {
+				daysContainer.classList.add("hidden");
+
+				if (index == target.getDay()) {
+					const time = performance.now() - timer;
+					message.innerText = `Success ${
+						days[index]
+					} was correct! Guessed in under ${Math.ceil(
+						time / 1000
+					)}s!`;
+
+					saveStats(true, time);
+					return;
+				}
+
+				message.innerText = `Incorrect you guessed ${
+					days[index]
+				} the answer was ${days[target.getDay()]}`;
+				saveStats(false);
+			});
+		});
+
+		document.getElementById("reset").addEventListener(
+			"click",
+			() => {
+				setupNewGame();
+			}
+		);
+
+		setupNewGame();
 	</script>
 </html>
