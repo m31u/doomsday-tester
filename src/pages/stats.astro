@@ -29,11 +29,13 @@ import "../styles/global.css";
 	</head>
 	<body class="bg-slate-600">
 		<main
-			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 py-4 h-[100vh] max-h-full"
+			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 py-4 h-[100vh] max-h-full text-center"
 		>
 			<h1 class="text-3xl py-4">Statistics</h1>
 			<article>
-				<section class="flex flex-row space-x-4">
+				<section
+					class="flex justify-center flex-row space-x-4"
+				>
 					<p>
 						Wins:<span id="wins"
 							>No Data</span
@@ -56,7 +58,9 @@ import "../styles/global.css";
 					>
 				</p>
 			</article>
-			<section>
+			<section
+				class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-2"
+			>
 				<button
 					class="p-2 cursor-pointer rounded-full bg-red-800 hover:bg-red-700"
 					id="clear">Clear Stats</button

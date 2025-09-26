@@ -39,7 +39,7 @@ import "../styles/global.css";
 			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 pt-8 h-[100vh] max-h-full"
 		>
 			<header class="flex flex-col items-center">
-				<p>Which day of the week was...?</p>
+				<p>Which day of the week was...</p>
 				<h1 class="text-3xl my-2" id="date"></h1>
 			</header>
 			<div class="flex text-sm flex-col hidden" id="days">
@@ -80,7 +80,7 @@ import "../styles/global.css";
 				>
 			</div>
 
-			<div class="text-center" id="message"></div>
+			<div class="text-center px-4" id="message"></div>
 
 			<button
 				class="p-4 rounded-full bg-red-800 hover:bg-red-700 cursor-pointer my-2"
@@ -135,7 +135,9 @@ import "../styles/global.css";
 			let max = settings.maxCentury;
 
 			let year =
-				Math.floor(Math.random() * (max - min)) + min;
+				Math.floor(Math.random() * (max - min)) +
+				min +
+				100;
 			let month = Math.floor(Math.random() * 12) + 1;
 			let day =
 				Math.floor(
@@ -162,7 +164,7 @@ import "../styles/global.css";
 			daysContainer.classList.remove("hidden");
 			date.innerText = `${
 				months[target.getMonth()]
-			} ${target.getDate()}, ${target.getFullYear()}`;
+			} ${target.getDate()}, ${target.getFullYear()}?`;
 			message.innerText = "";
 		}
 
