@@ -40,7 +40,7 @@ import "../styles/global.css";
 				<label for="min-century">Minimum Century:</label
 				>
 				<select
-					class="p-2 text-sm rounded-full bg-slate-950"
+					class="p-2 cursor-pointer rounded-full bg-slate-950 hover:bg-slate-800"
 					name="min-century"
 					id="min-century"
 				>
@@ -56,7 +56,7 @@ import "../styles/global.css";
 				<label for="max-century">Maximum Century:</label
 				>
 				<select
-					class="p-2 text-sm rounded-full bg-slate-950"
+					class="p-2 cursor-pointer rounded-full bg-slate-950 hover:bg-slate-800"
 					name="max-century"
 					id="max-century"
 				>
@@ -70,6 +70,7 @@ import "../styles/global.css";
 			<section>
 				<label for="allow-stats">Save stats:</label>
 				<input
+					class="cursor-pointer"
 					type="checkbox"
 					name="allow-stats"
 					id="allow-stats"
@@ -78,11 +79,11 @@ import "../styles/global.css";
 
 			<section>
 				<button
-					class="p-2 bg-green-800 rounded-full"
+					class="p-2 cursor-pointer bg-green-800 hover:bg-green-700 rounded-full"
 					id="save">Save Settings</button
 				>
 				<button
-					class="p-2 bg-red-800 rounded-full"
+					class="p-2 cursor-pointer bg-red-800 hover:bg-red-700 rounded-full"
 					id="cancel">Cancel</button
 				>
 			</section>
