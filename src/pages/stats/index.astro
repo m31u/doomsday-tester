@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import "../../styles/global.css";
 ---
 
 <html lang="en">
@@ -60,6 +60,10 @@ import "../styles/global.css";
 				<button
 					class="p-2 cursor-pointer rounded-full bg-red-800 hover:bg-red-700"
 					id="clear">Clear Stats</button
+				>
+				<button
+					class="p-2 cursor-pointer rounded-full bg-green-800 hover:bg-green-700"
+					id="export">Export Stats</button
 				>
 				<button
 					class="p-2 cursor-pointer rounded-full bg-blue-800 hover:bg-blue-700"
@@ -127,6 +131,13 @@ import "../styles/global.css";
 			"click",
 			() => {
 				window.location.replace("/");
+			}
+		);
+
+		document.getElementById("export").addEventListener(
+			"click",
+			() => {
+				window.location.replace("/stats/export");
 			}
 		);
 	</script>

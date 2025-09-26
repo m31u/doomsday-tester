@@ -1,0 +1,74 @@
+---
+import "../../styles/global.css";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/apple-touch-icon.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="/favicon-32x32.png"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="16x16"
+			href="/favicon-16x16.png"
+		/>
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Doomsday Tester - Stats</title>
+	</head>
+	<body class="bg-slate-600">
+		<main
+			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 py-4 h-[100vh] max-h-full"
+		>
+			<div id="message"></div>
+			<canvas id="qr"></canvas>
+			<div id="url"></div>
+		</main>
+	</body>
+
+	<script>
+		import qrcode from "qrcode";
+
+		const canvas = document.getElementById("qr");
+		const message = document.getElementById("message");
+		const url = document.getElementById("url");
+		const stats = window.localStorage.getItem("stats");
+
+		if (!stats) {
+			message.innerText = "No Stats found!";
+		} else {
+			const importURL = new URL(
+				`${window.location.protocol}//${window.location.host}`
+			);
+
+			importURL.pathname = "/stats/import";
+			importURL.searchParams.set("data", btoa(stats));
+
+			canvas.width = 350;
+			canvas.height = 350;
+
+			message.innerText =
+				"Scan the QR or copy the url to import stats";
+			url.innerText = importURL.toString();
+
+			qrcode.toCanvas(
+				canvas,
+				importURL.toString(),
+				function (error) {
+					if (error) console.log(error);
+				}
+			);
+		}
+	</script>:w
+</html>
