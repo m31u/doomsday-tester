@@ -18,66 +18,90 @@ import "../styles/global.css";
 				Settings
 			</h1>
 
-			<label for="min-century">Minimum Century:</label>
-			<select name="min-century" id="min-century">
-				<option value="1400">1400</option>
-				<option value="1500">1500</option>
-				<option value="1600">1600</option>
-				<option value="1700">1700</option>
-				<option value="1800">1800</option>
-				<option value="1900">1900</option>
-			</select>
-			<label for="max-century">Maximum Century:</label>
-			<select name="max-century" id="max-century">
-				<option value="2000">2000</option>
-				<option value="2100">2100</option>
-				<option value="2200">2200</option>
-				<option value="2300">2300</option>
-				<option value="2400">2400</option>
-			</select>
-			<label for="allow-stats">Save stats</label>
-			<input
-				type="checkbox"
-				name="allow-stats"
-				id="allow-stats"
-			/>
+			<section>
+				<label for="min-century">Minimum Century:</label
+				>
+				<select
+					class="p-2 text-sm rounded-full bg-slate-950"
+					name="min-century"
+					id="min-century"
+				>
+					<option value="1400">1400</option>
+					<option value="1500">1500</option>
+					<option value="1600">1600</option>
+					<option value="1700">1700</option>
+					<option value="1800">1800</option>
+					<option value="1900">1900</option>
+				</select>
+			</section>
+			<section>
+				<label for="max-century">Maximum Century:</label
+				>
+				<select
+					class="p-2 text-sm rounded-full bg-slate-950"
+					name="max-century"
+					id="max-century"
+				>
+					<option value="2000">2000</option>
+					<option value="2100">2100</option>
+					<option value="2200">2200</option>
+					<option value="2300">2300</option>
+					<option value="2400">2400</option>
+				</select>
+			</section>
+			<section>
+				<label for="allow-stats">Save stats:</label>
+				<input
+					type="checkbox"
+					name="allow-stats"
+					id="allow-stats"
+				/>
+			</section>
 
-			<button id="save">Save Settings</button>
-			<button id="cancel">Cancel</button>
+			<section>
+				<button
+					class="p-2 bg-green-800 rounded-full"
+					id="save">Save Settings</button
+				>
+				<button
+					class="p-2 bg-red-800 rounded-full"
+					id="cancel">Cancel</button
+				>
+			</section>
 		</main>
+
+		<script>
+			import { getSettings } from "../lib/settings";
+
+			const settings = getSettings();
+
+			const min = document.getElementById("min-century");
+			const max = document.getElementById("max-century");
+			const stats = document.getElementById("allow-stats");
+			min.value = settings.minCentury;
+			max.value = settings.maxCentury;
+			stats.checked = settings.allowStats;
+
+			const save = document.getElementById("save");
+			const cancel = document.getElementById("cancel");
+
+			save.addEventListener("click", () => {
+				const newSettings = {
+					minCentury: parseInt(min.value),
+					maxCentury: parseInt(max.value),
+					allowStats: stats.checked,
+				};
+
+				window.localStorage.setItem(
+					"settings",
+					JSON.stringify(newSettings)
+				);
+				location.replace("/");
+			});
+
+			cancel.addEventListener("click", () => {
+				location.replace("/");
+			});
+		</script>
 	</body>
-
-	<script>
-		import { getSettings } from "../lib/settings";
-
-		const settings = getSettings();
-
-		const min = document.getElementById("min-century");
-		const max = document.getElementById("max-century");
-		const stats = document.getElementById("allow-stats");
-		min.value = settings.minCentury;
-		max.value = settings.maxCentury;
-		stats.checked = settings.allowStats;
-
-		const save = document.getElementById("save");
-		const cancel = document.getElementById("cancel");
-
-		save.addEventListener("click", () => {
-			const newSettings = {
-				minCentury: parseInt(min.value),
-				maxCentury: parseInt(max.value),
-				allowStats: stats.checked,
-			};
-
-			window.localStorage.setItem(
-				"settings",
-				JSON.stringify(newSettings)
-			);
-			location.replace("/");
-		});
-
-		cancel.addEventListener("click", () => {
-			location.replace("/");
-		});
-	</script>
 </html>

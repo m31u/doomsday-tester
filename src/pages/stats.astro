@@ -1,0 +1,98 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Doomsday Tester - Stats</title>
+	</head>
+	<body class="bg-slate-600">
+		<main
+			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 py-4 h-[100vh] max-h-full"
+		>
+			<section class="flex flex-row space-x-4">
+				<p>Wins:<span id="wins">No Data</span></p>
+				<p>Losses:<span id="losses">No Data</span></p>
+			</section>
+			<p>Win Percentage: <span id="perc">No Data</span></p>
+			<p>Average time: <span id="secs">No Data</span></p>
+
+			<section>
+				<button
+					class="p-2 rounded-full bg-red-800"
+					id="clear">Clear Stats</button
+				>
+				<button
+					class="p-2 rounded-full bg-blue-800"
+					id="home">Return to Tester</button
+				>
+			</section>
+		</main>
+	</body>
+
+	<script>
+		function getStats() {
+			let stats = window.localStorage.getItem("stats");
+
+			if (!stats) {
+				let newStats = {
+					wins: 0,
+					losses: 0,
+					times: [],
+				};
+
+				window.localStorage.setItem(
+					"stats",
+					JSON.stringify(newStats)
+				);
+
+				return newStats;
+			}
+
+			return JSON.parse(stats);
+		}
+
+		const stats = getStats();
+
+		const wins = document.getElementById("wins");
+		const losses = document.getElementById("losses");
+		const percentage = document.getElementById("perc");
+		const time = document.getElementById("secs");
+
+		wins.innerText = stats.wins;
+		losses.innerText = stats.losses;
+
+		if (stats.wins + stats.losses > 0) {
+			percentage.innerText = `${Math.ceil(
+				(stats.wins * 100) / (stats.wins + stats.losses)
+			)}%`;
+		}
+
+		if (stats.wins > 0 && stats.times.length > 0) {
+			time.innerText = `${Math.floor(
+				stats.times.reduce((acc, t) => acc + t, 0) /
+					stats.wins /
+					1000
+			)}`;
+		}
+
+		document.getElementById("clear").addEventListener(
+			"click",
+			() => {
+				window.localStorage.removeItem("stats");
+				window.location.replace("/stats");
+			}
+		);
+
+		document.getElementById("home").addEventListener(
+			"click",
+			() => {
+				window.location.replace("/");
+			}
+		);
+	</script>
+</html>
