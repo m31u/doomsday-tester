@@ -27,63 +27,77 @@ import "../styles/global.css";
 		<meta name="generator" content={Astro.generator} />
 		<title>Doomsday Tester</title>
 	</head>
-	<body class="bg-slate-600">
-		<div
-			class="flex whitespace-pre justify-start fixed top-0 bg-slate-950 text-slate-300 w-full px-2 py-0.5"
-		>
-			<a href="/settings">Settings</a> | <a href="/stats"
-				>Stats</a
-			>
-		</div>
+	<body class="bg-slate-950">
 		<main
-			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 pt-8 h-[100vh] max-h-full"
+			class="flex flex-col justify-between items-center font-mono bg-slate-950 text-slate-300 h-[100vh] max-h-full"
 		>
-			<header class="flex flex-col items-center">
+			<div
+				class="flex justify-start space-x-2 whitespace-pre bg-black text-slate-300 w-full p-3"
+			>
+				<a
+					class="bg-green-800 hover:bg-green-700 cursor-pointer rounded-md px-2"
+					href="/settings">Settings</a
+				>
+				<a
+					class="bg-blue-800 hover:bg-blue-700 cursor-pointer rounded-md px-2"
+					href="/stats">Stats</a
+				>
+			</div>
+			<header
+				class="flex flex-col items-center bg-slate-600 w-72 md:w-80 rounded-md p-2 md:p-4"
+			>
 				<p>Which day of the week was...</p>
-				<h1 class="text-3xl my-2" id="date"></h1>
+				<h1 class="text-3xl" id="date"></h1>
 			</header>
-			<div class="flex text-sm flex-col hidden" id="days">
+			<div
+				class="flex text-sm flex-col hidden w-72 md:w-80 p-2 md:p-4 bg-slate-600 rounded-md space-y-2"
+				id="days"
+			>
 				<button
-					class="p-4 rounded-full bg-slate-950 hover:bg-slate-800 cursor-pointer day my-2"
+					class="p-4 rounded-md bg-slate-950 hover:bg-slate-800 cursor-pointer day"
 					x-index="0"
 					id="sunday">Sunday</button
 				>
 				<button
-					class="p-4 rounded-full bg-slate-950 hover:bg-slate-800 cursor-pointer day my-2"
+					class="p-4 rounded-md bg-slate-950 hover:bg-slate-800 cursor-pointer day"
 					x-index="1"
 					id="monday">Monday</button
 				>
 				<button
-					class="p-4 rounded-full bg-slate-950 hover:bg-slate-800 cursor-pointer day my-2"
+					class="p-4 rounded-md bg-slate-950 hover:bg-slate-800 cursor-pointer day"
 					x-index="2"
 					id="tuesday">Tuesday</button
 				>
 				<button
-					class="p-4 rounded-full bg-slate-950 hover:bg-slate-800 cursor-pointer day my-2"
+					class="p-4 rounded-md bg-slate-950 hover:bg-slate-800 cursor-pointer day"
 					x-index="3"
 					id="wednesday">Wednesday</button
 				>
 				<button
-					class="p-4 rounded-full bg-slate-950 hover:bg-slate-800 cursor-pointer day my-2"
+					class="p-4 rounded-md bg-slate-950 hover:bg-slate-800 cursor-pointer day"
 					x-index="4"
 					id="thursday">Thursday</button
 				>
 				<button
-					class="p-4 rounded-full bg-slate-950 hover:bg-slate-800 cursor-pointer day my-2"
+					class="p-4 rounded-md bg-slate-950 hover:bg-slate-800 cursor-pointer day"
 					x-index="5"
 					id="friday">Friday</button
 				>
 				<button
-					class="p-4 rounded-full bg-slate-950 hover:bg-slate-800 cursor-pointer day my-2"
+					class="p-4 rounded-md bg-slate-950 hover:bg-slate-800 cursor-pointer day"
 					x-index="6"
 					id="saturday">Saturday</button
 				>
 			</div>
 
-			<div class="text-center px-4" id="message"></div>
+			<div
+				class="text-center p-2 w-72 bg-slate-600 rounded-md hidden"
+				id="message"
+			>
+			</div>
 
 			<button
-				class="p-4 rounded-full bg-red-800 hover:bg-red-700 cursor-pointer my-2"
+				class="p-4 my-4 w-72 md:w-80 rounded-md bg-red-800 hover:bg-red-700 cursor-pointer my-2"
 				id="reset">Get New Challenge</button
 			>
 		</main>
@@ -162,6 +176,7 @@ import "../styles/global.css";
 			timer = performance.now();
 			target = getRandomDate();
 			daysContainer.classList.remove("hidden");
+			message?.classList.add("hidden");
 			date.innerText = `${
 				months[target.getMonth()]
 			} ${target.getDate()}, ${target.getFullYear()}?`;
@@ -208,7 +223,7 @@ import "../styles/global.css";
 			const index = parseInt(btn.attributes["x-index"].value);
 			btn.addEventListener("click", () => {
 				daysContainer.classList.add("hidden");
-
+				message.classList.remove("hidden");
 				if (index == target.getDay()) {
 					const time = performance.now() - timer;
 					message.innerText = `Success ${

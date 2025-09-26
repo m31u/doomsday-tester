@@ -28,19 +28,21 @@ import "../styles/global.css";
 		<meta name="generator" content={Astro.generator} />
 		<title>Doomsday Test - Settings</title>
 	</head>
-	<body class="bg-slate-600">
+	<body class="bg-slate-950">
 		<main
-			class="flex flex-col justify-between items-center font-mono bg-slate-600 text-slate-300 py-2 h-[100vh] max-h-full"
+			class="flex flex-col justify-between items-center font-mono bg-slate-950 text-slate-300 py-2 h-[100vh] max-h-full"
 		>
 			<h1 class="text-3xl text-center my-2" id="heading">
 				Settings
 			</h1>
 
-			<section>
+			<section
+				class="bg-slate-600 flex flex-col space-y-2 p-2 md:p-4 w-72 md:w-80 rounded-md"
+			>
 				<label for="min-century">Minimum Century:</label
 				>
 				<select
-					class="p-2 cursor-pointer rounded-full bg-slate-950 hover:bg-slate-800"
+					class="p-2 cursor-pointer rounded-md bg-slate-950 hover:bg-slate-800"
 					name="min-century"
 					id="min-century"
 				>
@@ -52,11 +54,13 @@ import "../styles/global.css";
 					<option value="1900">1900</option>
 				</select>
 			</section>
-			<section>
+			<section
+				class="bg-slate-600 flex flex-col space-y-2 p-2 md:p-4 w-72 md:w-80 rounded-md"
+			>
 				<label for="max-century">Maximum Century:</label
 				>
 				<select
-					class="p-2 cursor-pointer rounded-full bg-slate-950 hover:bg-slate-800"
+					class="p-2 cursor-pointer rounded-md bg-slate-950 hover:bg-slate-800"
 					name="max-century"
 					id="max-century"
 				>
@@ -67,7 +71,9 @@ import "../styles/global.css";
 					<option value="2400">2400</option>
 				</select>
 			</section>
-			<section>
+			<section
+				class="bg-slate-600 flex justify-between p-2 md:p-4 w-72 md:w-80 rounded-md"
+			>
 				<label for="allow-stats">Save stats:</label>
 				<input
 					class="cursor-pointer"
@@ -77,13 +83,15 @@ import "../styles/global.css";
 				/>
 			</section>
 
-			<section>
+			<section
+				class="flex flex-col w-72 md:w-80 space-y-4"
+			>
 				<button
-					class="p-2 cursor-pointer bg-green-800 hover:bg-green-700 rounded-full"
+					class="p-2 cursor-pointer bg-green-800 hover:bg-green-700 rounded-md"
 					id="save">Save Settings</button
 				>
 				<button
-					class="p-2 cursor-pointer bg-red-800 hover:bg-red-700 rounded-full"
+					class="p-2 cursor-pointer bg-red-800 hover:bg-red-700 rounded-md"
 					id="cancel">Cancel</button
 				>
 			</section>
